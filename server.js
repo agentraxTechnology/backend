@@ -6,7 +6,6 @@ const rateLimit = require('express-rate-limit');
 const mongoSanitize = require('express-mongo-sanitize');
 const connectDB = require('./config/db');
 
-
 const app = express();
 app.set('trust proxy', true);
 connectDB();
