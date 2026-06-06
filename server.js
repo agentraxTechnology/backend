@@ -14,7 +14,7 @@ connectDB();
 app.use(helmet({ contentSecurityPolicy: false, crossOriginResourcePolicy: false }));
 const corsOrigin = process.env.CORS_ORIGIN || '*';
 const allowedOrigins = corsOrigin === '*' ? '*' : ['http://localhost:3000', 'http://localhost:3001', process.env.FRONTEND_URL, ...corsOrigin.split(',').map(s => s.trim())].filter(Boolean);
-app.use(cors({ origin: allowedOrigins === '*' ? '*' : (origin, cb) => { cb(null, !origin || allowedOrigins.includes(origin)); }, credentials: true }));
+app.use(cors({ origin: allowedOrigins === '*' ? true : (origin, cb) => { cb(null, !origin || allowedOrigins.includes(origin)); }, credentials: true }));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(mongoSanitize());
