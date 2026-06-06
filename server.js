@@ -10,7 +10,7 @@ const app = express();
 app.set('trust proxy', true);
 connectDB();
 
-app.use(helmet());
+app.use(helmet({ contentSecurityPolicy: false, crossOriginResourcePolicy: false }));
 const corsOrigin = process.env.CORS_ORIGIN || '*';
 const allowedOrigins = corsOrigin === '*' ? '*' : ['http://localhost:3000', 'http://localhost:3001', process.env.FRONTEND_URL, ...corsOrigin.split(',').map(s => s.trim())].filter(Boolean);
 app.use(cors({ origin: allowedOrigins === '*' ? '*' : (origin, cb) => { cb(null, !origin || allowedOrigins.includes(origin)); }, credentials: true }));
