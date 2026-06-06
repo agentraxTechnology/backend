@@ -10,8 +10,9 @@ const app = express();
 connectDB();
 
 app.use(helmet());
-const allowedOrigins = ['http://localhost:3000', 'http://localhost:3001', process.env.FRONTEND_URL].filter(Boolean);
-app.use(cors({ origin: (origin, cb) => { cb(null, !origin || allowedOrigins.includes(origin)); }, credentials: true }));
+const corsOrigin = process.env.CORS_ORIGIN || '*';
+const allowedOrigins = corsOrigin === '*' ? '*' : ['http://localhost:3000', 'http://localhost:3001', process.env.FRONTEND_URL, ...corsOrigin.split(',').map(s => s.trim())].filter(Boolean);
+app.use(cors({ origin: allowedOrigins === '*' ? '*' : (origin, cb) => { cb(null, !origin || allowedOrigins.includes(origin)); }, credentials: true }));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(mongoSanitize());
